@@ -273,14 +273,17 @@
                 resultAns = firstValue.value * 1 * secValue.value * 1;
             }
             else if(operator==='/'){
-                resultAns = secValue.value ==='0' ? 0 :  firstValue.value * 1 / secValue.value * 1;
+                if(firstValue.value ==='' || secValue.value ==='' ){
+                    resultAns="Plz insert number!!!";
+                }else{
+                  resultAns = secValue.value ==='0' ? 0 :  firstValue.value * 1 / secValue.value * 1;  
+                }                
             }
             else{
                 resultAns="Plz insert number!!!";
             }
             result.innerHTML=resultAns;
-        }
-        )
+        })
         // 清空
         clearBtn.addEventListener('click',
         function(){
