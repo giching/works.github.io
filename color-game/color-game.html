@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>色弱挑戰主體</title>
+    <link rel="stylesheet" href="./css/color-game.css">
+</head>
+
+<body>
+    <div class="cover-container">
+        <div class="cover-all">
+            <p>色弱挑戰</p>
+            <h1>The Color !</h1>
+            <h5>找出所有色塊裡顏色不同的一個</h5>
+            <h5>Click on the tile that has a different color</h5>
+            <button class="start-btn">PLAY</button>
+            <button class="continue-btn">CONTINUE</button>
+        </div>
+    </div>
+    <div class="playgame">
+        <p id="time-counter"></p>
+        <div class="main-box"></div>
+        <div class="btn-all">
+            <button class="pause-btn">pause</button>
+            <button class="exit-btn">exit</button>
+        </div>
+    </div>
+
+    <script>
+        let level = 2;
+        var answerBox;
+        let mainBox;
+        let boxAll;
+        let box;
+        let size = 100 / level;
+
+        // cover主畫面
+        let coverPage = document.querySelector('.cover-container');
+        let startBtn = document.querySelector('.start-btn');
+        let countinueBtn = document.querySelector('.continue-btn');
+
+        // 進入遊戲
+        let playgame = document.querySelector('.playgame')
+        let pauseBtn = document.querySelector('.pause-btn');
+        let exitBtn = document.querySelector('.exit-btn');
+        let showCounter = document.querySelector('#time-counter');
+
+        let counterInterval;
+        let totaltime = 8;
+        let counter;
+
+        function start(level) {
+            mainBox = document.querySelector('.main-box');
+            mainBox.innerHTML = '';
+            let r = Math.floor(Math.random() * 255 + 1);
+            let g = Math.floor(Math.random() * 255 + 1);
+            let b = Math.floor(Math.random() * 255 + 1);
+            let color = `rgb(${r},${g},${b})`;
+            for (let i = 0; i < level * level; i++) {
+                mainBox.innerHTML = mainBox.innerHTML + '<div class="box"></div>';
+            }
+            boxAll = document.querySelectorAll('.box');
+            for (let i = 0; i < level * level; i++) {
+                let boxWidth = `calc(${95 / level}% )`;
+                let boxHeight = `calc(${95 / level}%)`;
+                boxAll[i].style.width = boxWidth;
+                boxAll[i].style.height = boxHeight;
+                boxAll[i].style.backgroundColor = color;
+            }
+            // A random whole number between 1 and level
+            let randomNum = Math.floor((Math.random() * level * level));
+            boxAll = document.querySelectorAll('.box');
+            boxAll[randomNum].classList.add('answer');
+            answerBox = document.querySelector('.answer');
+            answerBox.style.opacity = `${0.5 + level * 0.05}`;
+            // Remove prev event listener
+            answerBox.removeEventListener('click', answerHandler);
+            // Add new event listener
+            answerBox.addEventListener('click', answerHandler);
+        }
+        start(level);
+        function answerHandler() {
+            level++;
+            start(level);
+        }
+        // 計時器--(s)
+        myStartGame();
+        myPauseGmae();
+        myContinueGame();
+        myExitGame();
+
+        function myStartGame() {
+            // 開始遊戲
+            startBtn.addEventListener('click', () => {
+                level = 2;
+                start(level);
+                // 加入class name
+                counter = totaltime;
+                showCounter.innerHTML = counter;
+                coverPage.classList.add('dp-hidden');
+                playgame.classList.add('dp-show');
+                mainBox.classList.add('dp-show');
+                counterInterval = setInterval(counterTimer, 1000);
+            });
+        };
+
+        function myPauseGmae() {
+            // 暫停遊戲
+            pauseBtn.addEventListener('click', () => {
+                // 移除class name
+                coverPage.classList.remove('dp-hidden');
+                playgame.classList.remove('dp-show');
+                countinueBtn.classList.add('dp-show-btn');
+                mainBox.classList.remove('dp-show');
+                // 暫停計時
+                counterStopFunction();
+            })
+        };
+
+        function myContinueGame() {
+            // 繼續遊戲
+            countinueBtn.addEventListener('click', () => {
+                // 加入class name
+                coverPage.classList.add('dp-hidden');
+                playgame.classList.add('dp-show');
+                mainBox.classList.add('dp-show');
+                counterInterval = setInterval(counterTimer, 1000);
+            })
+        }
+        function myExitGame() {
+            exitBtn.addEventListener('click', () => {
+                // 移除class name
+                coverPage.classList.remove('dp-hidden');
+                playgame.classList.remove('dp-show');
+                countinueBtn.classList.remove('dp-show-btn');
+                mainBox.classList.remove('dp-show');
+                // 暫停計時
+                counterStopFunction();
+                showCounter.innerHTML = ''
+                level = 2;
+
+            })
+        }
+        // 獲得新時間並顯示
+        function counterTimer() {
+            if (counter > 0) {
+                playgame.classList.add('dp-hidden');
+                showCounter.innerHTML = --counter;
+            } else {
+                alert('挑戰結束!');
+                counterStopFunction();
+                coverPage.classList.remove('dp-hidden');
+                playgame.classList.remove('dp-show');
+                countinueBtn.classList.remove('dp-show-btn');
+                mainBox.classList.remove('dp-show');
+            }
+        };
+
+        // 停止計時
+        function counterStopFunction() {
+            clearInterval(counterInterval);
+        };
+        // 計時器--(e)        
+    </script>
+</body>
+
+</html>

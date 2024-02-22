@@ -1,0 +1,364 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0%;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cat-all{
+  position: absolute;
+  width:100%;
+  height: 100vh;
+  background-color: #d4f5fc;
+}
+.cat-all img{
+  position: absolute;
+  width:auto;
+  height: 50vh;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+}
+.cat-eyes-all{
+  position: absolute;
+  width: 280px;
+  height: 30px;
+  /* background-color: #7b1515; */
+  z-index: 40;
+  top: 28%;
+  left: 50%;
+  transform: translate(-50%,-28%);
+}
+.cat-eyes{
+  position: absolute;
+  width: 10px;
+  height: 20px;
+  background-color: #515151;
+  z-index: 40;
+  border-radius: 50%;
+  animation-duration: 8s;
+  animation-iteration-count: infinite;
+}
+.l-eye{
+  animation-name: cat-eye-move-l;
+}
+.r-eye{
+  animation-name: cat-eye-move-r;
+}
+
+.paw{
+  position:relative;
+  width:150px;
+  height: 20vh;
+  /* background-color: #e6d0d0; */
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -35%);
+  z-index: 10;
+}
+/* paw-left */
+.paw::before{
+  content: "";
+  width:150px;
+  height: 20vh;
+  position: absolute;
+  background-image: url(../img/paw.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  left: -155%;
+}
+/* paw-right */
+.paw::after{
+  content: "";
+  width:150px;
+  height: 20vh;
+  position: absolute;
+  background-image: url(../img/paw.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  right: -155%;
+}
+.tank{
+  position: relative;
+  top:10%;
+  width: 80vw;
+  height:60vh;
+  border:30px solid #515151;
+  border-top-color:transparent ;
+  z-index: 15;
+}
+/* seaweed-left */
+.tank::before{
+  content: "";
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  z-index: 15;
+  background-image: url(../img/seaweed.svg);
+  bottom: 0;
+  left: -50px;
+  background-repeat: no-repeat;
+}
+/* seaweed-right */
+.tank::after{
+  content: "";
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  z-index: 15;
+  background-image: url(../img/seaweed.svg);
+  bottom: 0;
+  right: -70px;
+  background-repeat: no-repeat;
+}
+
+.tank-glass{
+  position: absolute;
+  bottom: 0;
+  width:100%;
+  height:100%;
+  background-color: rgba(143, 214, 255, 0.3);
+  z-index: 20;
+}
+/* big fish */
+.big-fish{
+  position: absolute;
+  width: 165px;
+  height: 120px;
+  /* background-color: rgb(40, 176, 255); */
+  overflow: hidden;
+  animation-name:  fish-move;
+  animation-duration:8s;
+  animation-iteration-count: infinite;
+  z-index: 12;
+}
+.fish-eyes{
+  width: 20px;
+  height: 10px;
+  position: absolute;
+  background-color: rgb(255, 37, 37);
+  border-radius: 0 0  20px 20px;
+  top: 40%;
+  right: 20px;
+  z-index: 10;
+  transform: rotate(30deg);
+}
+.big-fish-body{
+  width: 120px;
+  height: 40px;
+  background-color: rgb(79, 77, 134);
+  border-radius: 40px 40px 0 0;
+  margin-top: 10%;
+  margin-left: 25%;
+}
+.big-body-up{
+  transform-origin: bottom;
+  /* margin-bottom: 30px; */
+  animation-name:fish-mouth-up ;
+  animation-duration: 0.8s;
+  animation-iteration-count: infinite;
+
+}
+.big-body-down{
+  transform-origin: top;
+  border-radius: 0 0 60px 60px ;
+  margin-top:0%;
+  animation-name:fish-mouth-down ;
+  animation-duration: 0.8s;
+  animation-iteration-count: infinite;
+}
+.big-fish-tail{
+  position: absolute;
+  width: 50px;
+  height: 80px;
+  background-color: rgb(62, 59, 89);
+  border-radius:3px 50px 50px 3px;
+  top: 20px;
+  left: 5px;
+}
+.big-fish-tail::before{
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 80px;
+  background-color:  rgb(255, 245, 152);
+  border-radius:0 30px 30px 0;
+  left: -5px;
+}
+
+/* small fish */
+.small-fish{
+  position: relative;
+  width: 165px;
+  height: 120px;
+  /* background-color: rgb(255, 237, 40);/ */
+  overflow: hidden;
+  /* left: 165px;
+  top: 10%; */
+  animation-name:  fish-move-small;
+  animation-duration:8s;
+  animation-iteration-count: infinite;
+}
+.small-fish-body .fish-eyes{
+  width: 20px;
+  height: 10px;
+  position: absolute;
+  background-color: rgb(173, 225, 255);
+  border-radius: 0 0  20px 20px;
+  top: 40%;
+  right: 20px;
+  z-index: 10;
+  transform: rotate(-30deg);
+}
+.small-fish-body{
+  width: 100px;
+  height: 40px;
+  background-color: rgb(79, 135, 101);
+  border-radius: 40px 40px 0 0;
+  margin-top: 10%;
+  margin-left: 25%;
+}
+.small-body-up{
+  transform-origin: bottom;
+  /* margin-bottom: 30px; */
+  animation-name:fish-mouth-up ;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+
+}
+.small-body-down{
+  transform-origin: top;
+  border-radius: 0 0 40px 60px ;
+  margin-top:0%;
+  animation-name:fish-mouth-down ;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+.small-fish-tail{
+  position: absolute;
+  width: 40px;
+  height: 70px;
+  background-color: rgb(34, 148, 78);
+  border-radius:3px 40px 40px 3px;
+  top: 20px;
+  left: 10px;
+}
+.small-fish-tail::before{
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 70px;
+  background-color:  rgb(255, 245, 152);
+  border-radius:0 20px 20px 0;
+  left: -5px;
+}
+
+.table{
+  position: absolute;
+  bottom: 0;
+  width:100%;
+  height:60vh;
+  background-color: rgb(255, 245, 152);
+  z-index: 1;
+}
+
+@keyframes cat-eye-move-l {
+  0%{
+      left:10%;
+  }
+  50%{
+      left:22%;
+  }
+  100%{
+    left:10%;
+  }
+}
+@keyframes cat-eye-move-r {
+  0%{
+    left:78%;
+  }
+  50%{
+      left: 90%;
+  }
+  100%{
+    left:78%;
+  }
+}
+@keyframes fish-mouth-up {
+  50%{
+    transform: rotate(-15deg);
+  }
+  
+}
+@keyframes fish-mouth-down {
+  50%{
+    transform: rotate(15deg);
+  }
+  
+}
+@keyframes fish-move {
+  0%{
+    left: 0%;
+    top: 15%;
+    /* transform: rotateY(-180deg); */
+  }
+  48%{
+    transform: rotateY(0deg);
+    left: 75%;
+    top: 20%;
+  }
+
+  50%{
+    transform: rotateY(180deg);
+    left: 80%;
+    top: 20%;
+  }
+  /* 80%{
+    top: 30%;
+  } */
+  91%{
+    transform: rotateY(180deg);
+    left: 5%;
+    top: 60%;
+  }
+  100%{
+    left: 0%;
+    top: 15%;
+  }
+  
+}
+@keyframes fish-move-small {
+  0%{
+    left: 25%;
+    top: 17%;
+  }
+  20%{
+    transform: rotateY(0deg);
+    left: 75%;
+    top: 20%;
+  }
+
+  40%{
+    transform: rotateY(180deg);
+    left:85%;
+    top: 45%;
+  }
+  70%{
+    left: 0%;
+    top: 50%;
+    transform: rotateY(180deg);
+  }
+  92%{
+    left: 5%;
+    top: 15%;
+  }
+  100%{
+    left: 25%;
+    top: 17%;
+  }
+}
