@@ -1,0 +1,233 @@
+* {
+  box-sizing: border-box;
+  font-family: "Zen Maru Gothic", "Kosugi Maru", "Noto Serif TC", sans-serif, serif;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #D4C5C7;
+}
+
+nav {
+  width: 100%;
+  height: 10vh;
+  background-color: rgba(129, 141, 146, 0.8196078431);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  padding: 0px 2.5%;
+}
+nav p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  font-size: 20px;
+  color: #fff;
+}
+nav i {
+  margin-left: 5px;
+}
+
+.btn-all {
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  /* align-items: center; */
+}
+.btn-all button {
+  width: 60px;
+  background-color: #586A6A;
+  color: #fff;
+  border-color: transparent;
+  margin-right: 5px;
+  border-radius: 3px;
+  padding: 2px;
+}
+.btn-all button:hover {
+  background-color: #818D92;
+  cursor: pointer;
+}
+
+.card-all {
+  width: 90%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  /* background-color: #aeaeae; */
+  flex-wrap: wrap;
+  position: relative;
+  top: 12vh;
+}
+
+.card {
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  width: calc(20% - 30px);
+  height: 280px;
+  background-color: #B9A394;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2509803922);
+}
+.card .city-name {
+  font-size: 28px;
+  width: 50%;
+  background-color: #586A6A;
+  position: absolute;
+  text-align: center;
+  top: -10px;
+  z-index: 25;
+  border-radius: 5px;
+}
+.card .text {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 35px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.card .text .time {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 60%;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.card .text .temp-all {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.card .text .temp {
+  margin-bottom: 10px;
+}
+.card .text .temp .htemp {
+  color: #586A6A;
+  font-size: 24px;
+  font-weight: 600;
+}
+.card .text .ci {
+  margin-bottom: 15px;
+}
+.card .text .pop {
+  font-size: 24px;
+  color: #586A6A;
+  margin-bottom: 10px;
+}
+.card .text .pop i {
+  font-size: 20px;
+  color: #fff;
+}
+.card .text .rainfall {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+.card .text .btn {
+  width: 50%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.card .text .btn button {
+  border-color: transparent;
+  border-radius: 3px;
+  padding: 8PX;
+  font-size: 12px;
+  color: #586A6A;
+  z-index: 25;
+  font-weight: 600;
+}
+.card .text .btn button a {
+  text-decoration: none;
+  color: #586A6A;
+}
+.card .text .btn button a:active {
+  color: #586A6A;
+}
+.card span {
+  position: relative;
+  z-index: 20;
+}
+.card .icon {
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 10px 0px;
+  overflow: hidden;
+}
+.card .icon i {
+  font-size: 80pt;
+  color: #000;
+  opacity: 20%;
+  animation-name: weather-move;
+  animation-iteration-count: infinite;
+  animation-duration: 4s;
+  animation-timing-function: linear;
+}
+
+@keyframes weather-move {
+  0% {
+    margin-right: -20px;
+  }
+  50% {
+    margin-right: 0px;
+  }
+  100% {
+    margin-right: -20px;
+  }
+}
+@media (max-width: 1200px) {
+  .card {
+    width: calc(33.3333333333% - 30px);
+  }
+  .btn-all {
+    width: 70%;
+  }
+}
+@media (max-width: 900px) {
+  .card {
+    width: calc(50% - 30px);
+  }
+  .btn-all {
+    width: 60%;
+  }
+}
+@media (max-width: 600px) {
+  .card {
+    width: calc(100% - 30px);
+  }
+  .btn-all {
+    width: 50%;
+  }
+}/*# sourceMappingURL=weather.css.map */

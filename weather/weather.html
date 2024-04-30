@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- fontAwsome link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Noto+Serif+TC&family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
+    <title>天氣</title>
+    <link rel="stylesheet" href="./css/weather.css">
+
+</head>
+<body>
+    <nav>
+        <p>全臺天氣預報 <i class="fa-solid fa-wind"></i></p>
+        <div class="btn-all">
+            <button class="nav-btn">全國</button>
+            <button class="nav-btn">北部</button> 
+            <button class="nav-btn">中部</button> 
+            <button class="nav-btn">南部</button> 
+            <button class="nav-btn">東部</button> 
+            <button class="nav-btn">離島</button> 
+        </div>
+    </nav>
+    
+    <div class="card-all">
+    </div>
+    
+    <script>
+        let btnAll = document.querySelectorAll('.nav-btn');
+
+        let url = 'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWA-5C9213E4-C186-4D6F-AF1B-E394AF554E45';
+
+        let cities = [
+            ['基隆市', '新北市', '臺北市', '桃園市', '新竹市', '新竹縣', '宜蘭縣', '苗栗縣', '臺中市', '南投縣', '彰化縣', '雲林縣', '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '花蓮縣', '臺東縣', '澎湖縣', '金門縣', '連江縣'],
+            ['基隆市', '新北市', '臺北市', '桃園市', '新竹市', '新竹縣','宜蘭縣'], ['苗栗縣', '臺中市', '南投縣', '彰化縣', '雲林縣' ],
+            ['嘉義市', '嘉義縣','臺南市', '高雄市', '屏東縣'],['花蓮縣', '臺東縣'], ['澎湖縣', '金門縣', '連江縣'],
+        ];
+        // 紀念用 r.i.p --(s)
+        // let weatherIcon=["fa-sun","fa-cloud-sun","fa-cloud-sun","fa-cloud","fa-cloud","fa-cloud","fa-cloud","fa-cloud-rain","fa-cloud-showers-water","fa-cloud-showers-heavy","fa-cloud-bolt"]
+        // 紀念用 r.i.p --(e)
+        
+        let nowCities = cities[0];
+        // 組織過後的data
+        let orgData = {}; 
+
+        fetchData();
+        // btn
+        btnAll.forEach((btn,index)=>{
+            btn.addEventListener('click',
+            ()=>{
+                // switch
+                nowCities = cities[index];
+                fetchData();
+            })
+        });
+
+        // get data
+        function fetchData(){
+            fetch(url)
+            .then(function (response) {
+                return response.json();
+            }) 
+            // put code inside function(to avoid data doen't show in the same time)
+            .then(function (weatherData) {
+            console.log(weatherData);
+            // 整理資料
+            organizationData(weatherData);
+            // console.log(orgData.locationName);
+            // 處理資料
+            arranageCities();
+        });     
+        }
+        // 整理資料
+        function organizationData(weatherData){
+            // let locationAll = [];
+            let locationAll = weatherData.records.location;
+            console.log(locationAll);
+            locationAll.forEach(location => {
+                // 城市名
+                let cityName = location.locationName;
+                // 取時間
+                let locationWeatherElementT0 = location.weatherElement[0].time[0];
+                // 天氣狀況
+                let weatherCondition = locationWeatherElementT0.parameter.parameterName;
+                // 天氣狀況的代表數字
+                let weatherConditionNum = locationWeatherElementT0.parameter.parameterValue;
+                // 開始時間 & 結束時間
+                let startTime = locationWeatherElementT0.startTime.substring(5,16); //取第5-16個數字
+                // 將日期與時間拆開--(s)
+                let startDate = startTime.split(" ")[0];
+                let startHour = startTime.split(" ")[1];
+                // 將日期與時間拆開--(e)
+                let endTime = locationWeatherElementT0.endTime.substring(5,16);
+                 // 將日期與時間拆開--(s)
+                let endDate = endTime.split(" ")[0];
+                let endHour = endTime.split(" ")[1];
+                 // 將日期與時間拆開--(e)
+                // 最高溫
+                let hTemp = location.weatherElement[4].time[0].parameter.parameterName;
+                // 最低溫
+                let lowTemp = location.weatherElement[2].time[0].parameter.parameterName;
+                // 降雨機率
+                let pop = location.weatherElement[1].time[0].parameter.parameterName;
+                // 舒適度
+                let ci = location.weatherElement[3].time[0].parameter.parameterName;
+                
+                orgData[cityName] = {
+                'weatherCondition': weatherCondition,
+                'weatherConditionNum':
+                weatherConditionNum,
+                'startTime': startTime,
+                'startDate': startDate,
+                'startHour': startHour,
+                'endTime': endTime,
+                'endDate': endDate,
+                'endHour': endHour,
+                'hTemp' :hTemp,
+                'lowTemp':lowTemp,
+                'pop': pop,
+                'ci': ci,
+                }
+                // console.log(orgData)
+            });
+
+        }
+        // 處理資料
+        function arranageCities(weatherData){
+            let cardAll = document.querySelector('.card-all');
+            let iconW;
+            
+            cardAll.innerHTML = '';
+            nowCities.forEach((cities,index)=>{
+                let cityData = orgData[cities];
+                if (cityData.weatherConditionNum === "1"){
+                iconW = "fa-sun";
+                }else if (cityData.weatherConditionNum === "2" || cityData.weatherConditionNum === "3") {
+                iconW = "fa-cloud-sun";
+                }else if (cityData.weatherConditionNum === "4" || cityData.weatherConditionNum === "5" || cityData.weatherConditionNum === "6" || cityData.weatherConditionNum === "7") {
+                    iconW = "fa-cloud";
+                }else if (cityData.weatherConditionNum === "8") {
+                    iconW = "fa-cloud-rain";
+                }else if (cityData.weatherConditionNum === "9") {
+                    iconW = "fa-cloud-showers-water";
+                }else if (cityData.weatherConditionNum === "10") {
+                    iconW = "fa-cloud-showers-heavy";
+                }else{
+                    iconW = "fa-cloud-bolt";
+                };
+                console.log(cities,cityData.weatherConditionNum)
+                cardAll.innerHTML += 
+                `
+                <div class="card">
+                    <span class="city-name">${cities}
+                    </span>
+                    <div class="text">
+                    <div class="time">
+                        <span>${cityData.startDate}</span>
+                        <span>${cityData.startHour}</span>
+                        <span>${cityData.endHour}</span>
+                    </div>
+                    <div class="temp-all">
+                        <div class="temp">
+                            <i class="fa-solid fa-temperature-three-quarters"></i>
+                            <span class="htemp">${cityData.hTemp}˚&nbsp;&nbsp;C</span>
+                            <span class="ltemp">/${cityData.lowTemp}˚&nbsp;&nbsp;C</span> 
+                        </div>
+                        <span class="ci">${cityData.ci}</span> 
+                    </div>                    
+                    <div class="rainfall">
+                        <span class="pop">
+                        <i class="fa-solid fa-umbrella"></i>
+                        ${cityData.pop}%</span>
+                        <span>${cityData.weatherCondition}</span> 
+                    </div>
+                    <div class="btn">
+                        <button><a href="https://www.cwa.gov.tw/V8/C/W/week.html">Know More</a>
+                        </button>
+                    </div>                    
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid ${iconW}"></i>
+                    </div>                    
+                </div>
+                `;
+
+            })
+        }
+    </script>
+    
+</body>
+</html>
