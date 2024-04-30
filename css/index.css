@@ -22,20 +22,13 @@ nav {
   height: 8vh;
   background-color: #4A4E69;
   color: #fff;
+  text-align: center;
+  line-height: 8vh;
+  border-radius: 0px 0px 50% 50%;
 }
-nav .logo {
-  padding: 10px;
-}
-nav ul {
-  height: 100%;
-  padding: 10px;
-  margin: 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-nav li {
-  list-style: none;
+nav .title {
+  font-weight: 800;
+  font-size: 36px;
 }
 
 .container {
@@ -48,17 +41,21 @@ nav li {
 }
 .container .row {
   width: 100%;
+  z-index: 30;
 }
 .container .card {
   padding: 10px;
   background-color: transparent;
+  border-color: transparent;
   height: 320px;
 }
 .container a {
   color: #fff;
   text-decoration: none;
   padding: 10px;
-  border: 2px solid #fff;
+  background-color: rgba(74, 78, 105, 0.4392156863);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
   border-radius: 10px;
   width: 100%;
   height: 100%;
@@ -78,11 +75,68 @@ nav li {
 .container a p {
   width: 100%;
   text-align: center;
-  padding: 5px;
+  padding: 10px;
   font-weight: 700;
   margin: 0;
 }
 .container a:hover {
-  background-color: #C9ADA7;
+  background-color: #9A8C98;
   border-color: transparent;
+}
+.container .dec {
+  width: 100%;
+  position: absolute;
+  height: 100%;
+  overflow: hidden;
+}
+.container .circle {
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  border: 1px solid white;
+  z-index: 1;
+  position: absolute;
+  animation-name: glory;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.container .circle-s {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 1px solid white;
+  z-index: 1;
+  position: absolute;
+  animation-name: jump;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.container .left-l {
+  bottom: 20%;
+  left: 1%;
+}
+.container .left-s {
+  bottom: 10%;
+  left: 3%;
+}
+.container .right-l {
+  bottom: -10%;
+  right: -5%;
+}
+.container .right-s {
+  bottom: 20%;
+  right: 10%;
+}
+
+@keyframes jump {
+  50% {
+    bottom: 0px;
+  }
+}
+@keyframes glory {
+  50% {
+    border-color: yellow;
+  }
 }/*# sourceMappingURL=index.css.map */

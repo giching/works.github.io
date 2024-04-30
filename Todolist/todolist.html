@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <title>To do list</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(rgb(59, 60, 95), rgb(205, 155, 163));
+            display: flex;
+            /* justify-content: center; */
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .row {
+            padding: 0;
+            margin: 0;
+        }
+
+        .mybody {
+            width: 70%;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 3px;
+            margin-top: 12vh;
+        }
+
+        .nav-all {
+            width: 100%;
+            height: 10vh;
+            background-color: rgba(46, 47, 71, 0.621);
+            position: fixed;
+            backdrop-filter: blur(8px);
+        }
+
+        .logo {
+            height: 100%;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* background-color: bisque; */
+        }
+
+        .search {
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+
+        .input-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* border: 2px solid black; */
+        }
+
+        .search input {
+            /* width: 90%; */
+            height: 30px;
+
+        }
+
+        .title-all {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            text-align: center;
+        }
+
+        .title {
+            width: 80px;
+            height: 50x;
+            background-color: rgb(178, 178, 240);
+            padding: 10px;
+            border-radius: 5px 5px 0px 0px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .content-all {
+            width: 100%;
+            height: 100%;
+            /* border: 2px solid green; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow-y: overlay;
+        }
+
+        .content {
+            width: 100%;
+            height: 100%;
+            /* border: 1px solid grey; */
+            /* padding: 0px 10px; */
+        }
+
+        .list-name {
+            display: flex;
+            /* justify-content: space-between; */
+            padding: 0px 10px;
+            background-color: bisque;
+            height: 40px;
+            line-height: 40px;
+            font-size: 0.8rem;
+        }
+
+        .list-name div {
+            /* width: 200px; */
+            /* text-align: start; */
+            /* border: 2px solid red; */
+            /* border: 2px solid orange; */
+        }
+
+        ul {
+            padding: 0;
+        }
+
+        .list-item {
+            display: flex;
+            /* justify-content: space-between; */
+            padding: 10px;
+            border: 1px solid grey;
+            width: 100%;
+            margin-bottom: 5px;
+            border-radius: 2px;
+
+        }
+
+        .list-item input {}
+
+        .event {}
+
+        .btn-all {
+            display: flex;
+            /* border: 1px solid rgb(75, 60, 176); */
+            gap: 2px;
+            /* border: 2px solid orange; */
+            justify-content: center;
+        }
+
+        button {
+            width: 60px;
+            height: 30px;
+            background-color: rgb(178, 178, 240);
+            border-color: transparent;
+            border-radius: 2px;
+        }
+
+        button:hover {
+            background-color: pink;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .color-change {
+            background-color: pink;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="nav-all">
+        <div class="logo col-2">CheckList</div>
+    </nav>
+    <div class="mybody">
+        <div class="search">
+            <input type="text" placeholder="Create Event" class="col-10 add-event-text">
+            <button class="add-event to-do-btn col-2">Create</button>
+        </div>
+        <div class="title-all">
+            <div class="title color-change" data-title="All">All</div>
+            <div class="title" data-title="Finish">Finish</div>
+            <div class="title" data-title="Unfinish">Unfinish</div>
+        </div>
+        <div class="content-all">
+            <div class="content" data-content="All">
+                <div class="list-name row">
+                    <div class="col-1">Check</div>
+                    <div class="col-9">Event</div>
+                    <div class="col-2">Function</div>
+                </div>
+                <ul class="list-item-ul">
+                </ul>
+
+            </div>
+            <div class="content hidden" data-content="Finish">
+            </div>
+            <div class="content hidden" data-content="Unfinish"></div>
+        </div>
+
+    </div>
+
+
+    <script>
+        let arr = [];
+        // title
+        const titles = document.querySelectorAll('.title-all .title');
+        // content
+        const contents = document.querySelectorAll('.content');
+        let titleData = '';
+
+        if (localStorage.getItem('todoListData')) {
+            arr = JSON.parse(localStorage.getItem('todoListData'));
+        }
+
+        titles.forEach((item) => {
+            item.addEventListener('click', () => {
+                titleData = item.dataset.title;
+                switchData(titleData);
+            })
+        });
+        function switchData(titleData) {
+            switch (titleData) {
+                case 'All':
+                    titles.forEach((item) => {
+                        item.classList.remove('color-change');
+                    })
+                    titles[0].classList.add('color-change');
+                    output(arr);
+                    break;
+                case 'Finish':
+                    titles.forEach((item) => {
+                        item.classList.remove('color-change');
+                    })
+                    titles[1].classList.add('color-change');
+                    const finishArr = arr.filter((CheckOrNot) => {
+                        if (CheckOrNot.check === true) {
+                            return CheckOrNot;
+                        }
+                    })
+                    output(finishArr);
+                    break;
+                case 'Unfinish':
+                    titles.forEach((item) => {
+                        item.classList.remove('color-change');
+                    })
+                    titles[2].classList.add('color-change');
+                    const unfinishArr = arr.filter((CheckOrNot) => {
+                        if (CheckOrNot.check !== true) {
+                            return CheckOrNot;
+                        }
+                    })
+                    output(unfinishArr);
+                    break;
+                default:
+                    output(arr);
+                    break;
+            }
+        }
+
+        // 顯示清單
+        const dataShow = document.querySelector('.list-item-ul');
+        // 新增按鈕
+        const addToDoBtn = document.querySelector('.to-do-btn');
+        // 輸入文字區
+        const addText = document.querySelector('.add-event-text');
+
+        // 防止輸入空白鍵
+        if (addText) {
+            addText.addEventListener('input', function () {
+                if (this.value && this.value.trim() === '') {
+                    alert("DON'T PUT BLANK SPACE!");
+                    this.value = '';
+                }
+            });
+        } else {
+            console.error('找不到输入框！');
+        }
+        // 新增待做事項btn
+        addToDoBtn.addEventListener('click', () => {
+            const text = addText.value;
+            const id = arr.length;
+            if (text != '' || addText.type != 'text') {
+                const addArr = {
+                    id: id + 1,
+                    check: false,
+                    text: text,
+                    editText: '',
+                }
+                arr.push(addArr);
+            } else {
+                alert("Don't forget to write down your new event!")
+            };
+            console.log(addText.type);
+            output(arr);
+        });
+
+        // 編輯btn
+        function editText(id) {
+            console.log(id);
+            arr.map((item) => {
+                if (item.id == id) {
+                    const content = prompt('Edit event!');
+                    if (content != '' || content == null) {
+                        item.text = content;
+                    }
+                }
+            })
+            output(arr);
+        }
+
+        // 刪除btn
+        function deleteText(id) {
+            if (confirm('Delete?') == true) {
+                const deleteArr = arr.filter((item) => {
+                    console.log(item, id);
+                    if (item.id != id) {
+                        return item;
+                    }
+                });
+                arr = deleteArr;
+                output(arr);
+                alert('Delete success!');
+            }
+        }
+
+        // 確認勾選與否
+        function CheckOrNot(id) {
+            console.log(id);
+            arr.map((item) => {
+                if (item.id == id) {
+                    // 做相反動作
+                    item.check = !item.check;
+                }
+            })
+            switchData(titleData);
+            console.log('點完:', arr);
+        };
+
+        // list print
+        function output(addArr) {
+            dataShow.innerHTML = ``;
+            // 遍歷arr內每個物件
+            addArr.forEach((item) => {
+                dataShow.innerHTML +=
+                    `<ol class="list-item row">
+                        <div class="input-div col-1">
+                            <input type="checkbox" ${item.check == true ? 'checked' : ''} onclick="CheckOrNot(${item.id})" class="check-box">
+                        </div>
+                        <div class="event col-9">${item.text}</div>
+                        <div class="btn-all col-2">
+                            <button onclick="editText(${item.id})">Edit</button>
+                            <button onclick="deleteText(${item.id})">Delete</button>
+                        </div>
+                </ol>`
+            });
+            // 製作成JSON格式,以利儲存到localStorage裡
+            const arrData = JSON.stringify(arr);
+            localStorage.setItem('todoListData', arrData);
+
+            // 清空input內的值
+            addText.value = '';
+        }
+        // 在一剛開始顯示全部的東西
+        switchData('All'); 
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
