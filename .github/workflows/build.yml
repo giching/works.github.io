@@ -30,13 +30,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          # Upload dist repository
-          path: './dist'  # 确保这是你的静态内容的目录
+          # Upload the entire content of your static site directory, e.g., './dist' or './public'
+          # Make sure this directory contains your index.html and other assets
+          path: '.'  # Adjust this path to where your static files are located in your repository
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
